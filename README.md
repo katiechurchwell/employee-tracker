@@ -1,4 +1,7 @@
 # Employee Tracker
+ [![project-languages-used](https://img.shields.io/github/languages/count/katiechurchwell/employee-tracker?color=important)](https://github.com/katiechurchwell/employee-tracker)
+  [![project-top-language](https://img.shields.io/github/languages/top/katiechurchwell/employee-tracker?color=blueviolet)](https://github.com/katiechurchwell/employee-tracker)
+  
 Command-line application CMS managing a company's employee database.
 
 ## User Story
