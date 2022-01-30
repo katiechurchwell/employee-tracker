@@ -1,18 +1,13 @@
 var inquirer = require("inquirer");
+var DB = require("./utils/db.js");
+var userPrompts = require("./utils/userPrompts.js");
 
-const menuChoice = {
-  type: 'list',
-  name: 'chocolate',
-  message: "What's your favorite chocolate?",
-  choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'],
+
+async function app() {
+  const { menuChoice } = await userPrompts.promptHomeMenu();
+  if (menuChoice === "Quit") return;
+  DB[menuChoice.split(" ").join("")]();
+  app();
 }
 
-// function promptHome() {
-  inquirer.prompt(menuChoice);
-// }
-
-// async function app() {
-//   const { menuChoice } = await promptHome();
-// }
-
-// app();
+app();
