@@ -4,7 +4,7 @@ const db = require("../../db/connection");
 
 // ALL roles
 router.get("/roles", (req, res) => {
-  const sql = `SELECT * FROM roles`;
+  const sql = `SELECT * FROM roles`; //works
 
   db.query(sql, (err, rows) => {
     if (err) {
@@ -20,7 +20,7 @@ router.get("/roles", (req, res) => {
 
 // Get a single role
 router.get("/roles/:id", (req, res) => {
-  const sql = ``;
+  const sql = `SELECT FROM roles WHERE id = ?;`;
   const params = [req.params.id];
 
   db.query(sql, params, (err, row) => {

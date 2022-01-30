@@ -4,7 +4,7 @@ const db = require("../../db/connection");
 
 // ALL departments
 router.get("/departments", (req, res) => {
-  const sql = `SELECT * FROM departments;`;
+  const sql = `SELECT * FROM departments;`; //works
 
   db.query(sql, (err, rows) => {
     if (err) {
@@ -20,7 +20,7 @@ router.get("/departments", (req, res) => {
 
 // Get a single department
 router.get("/departments/:id", (req, res) => {
-  const sql = ``;
+  const sql = `SELECT FROM departments WHERE id = ?;`;
   const params = [req.params.id];
 
   db.query(sql, params, (err, row) => {

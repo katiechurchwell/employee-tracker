@@ -4,7 +4,7 @@ const db = require("../../db/connection");
 
 // ALL employees
 router.get("/employees", (req, res) => {
-  const sql = `SELECT * FROM employees`;
+  const sql = `SELECT * FROM employees;`; //working
 
   db.query(sql, (err, rows) => {
     if (err) {
@@ -20,7 +20,7 @@ router.get("/employees", (req, res) => {
 
 // Get a single employee
 router.get("/employees/:id", (req, res) => {
-  const sql = ``;
+  const sql = `SELECT FROM employees WHERE id = ?;`;
   const params = [req.params.id];
 
   db.query(sql, params, (err, row) => {
@@ -37,7 +37,7 @@ router.get("/employees/:id", (req, res) => {
 
 // Delete an employee
 router.delete("/employees/:id", (req, res) => {
-  const sql = `DELETE FROM employees WHERE id = ?`;
+  const sql = `DELETE FROM employees WHERE id = ?;`;
   const params = [req.params.id];
 
   db.query(sql, params, (err, result) => {
