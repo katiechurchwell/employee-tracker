@@ -4,7 +4,7 @@ const db = require("../../db/connection");
 
 // ALL roles
 router.get("/roles", (req, res) => {
-  const sql = ``;
+  const sql = `SELECT * FROM roles`;
 
   db.query(sql, (err, rows) => {
     if (err) {
@@ -79,5 +79,5 @@ router.post("/roles", ({ body }, res) => {
   });
 });
 
-//export router object
+// export router object
 module.exports = router;

@@ -1,3 +1,6 @@
+var apiRoutes = require("../routes/apiRoutes");
+var inquirer = require("inquirer");
+
 const DB = {
     ViewAllDepartments() {
       console.log("John, Merry, Ivanushka");
