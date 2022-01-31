@@ -20,7 +20,7 @@ router.get("/employees", (req, res) => {
 
 // Get a single employee
 router.get("/employees/:id", (req, res) => {
-  const sql = `SELECT FROM employees WHERE id = ?;`;
+  const sql = `SELECT employees.* WHERE employees.id = ?`;
   const params = [req.params.id];
 
   db.query(sql, params, (err, row) => {
