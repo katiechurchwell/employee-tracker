@@ -2,6 +2,7 @@ var apiRoutes = require("../routes/apiRoutes");
 var inquirer = require("inquirer");
 const db = require("../db/connection");
 
+//view all answers
 function answer(sql) {
   db.query(sql, (err, rows) => {
     if (err) {
@@ -13,6 +14,7 @@ function answer(sql) {
 }
 
 const DB = {
+  //view all questions
   ViewAllDepartments() {
     const sql = `SELECT * FROM departments`;
     answer(sql);
@@ -25,37 +27,38 @@ const DB = {
     const sql = `SELECT * FROM employees`;
     answer(sql);
   },
+  //add questions
   AddaDepartment() {
-    // router.post("/departments", ({ body }, res) => {
-    //   const errors = inputCheck(body, "id", "department_name");
-    //   if (errors) {
-    //     res.status(400).json({ error: errors });
-    //     return;
-    //   }
-    //   const sql = ``;
-    //   const params = [body.id, body.department_name];
-    
-    //   db.query(sql, params, (err, result) => {
-    //     if (err) {
-    //       res.status(400).json({ error: err.message });
-    //       return;
-    //     }
-    //     res.json({
-    //       message: "success",
-    //       data: body,
-    //     });
-    //   });
-    // });
+    const questions = [
+      {
+        type: "input",
+        name: "department_name",
+        message: "What's the new department's name?",
+      },
+    ];
+
+    inquirer.prompt(questions).then((answer) => {
+      sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}')`;
+
+      db.query(sql, (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(rows);
+      });
+    });
   },
   AddaRole() {
-    console.log("Managers");
+    console.log(db);
   },
   AddanEmployee() {
     console.log("Managers");
   },
+  //update questions
   UpdateanEmployeeRole() {
     console.log("Managers");
   },
+  //quit
   Quit() {
     console.log("Bye");
   },
