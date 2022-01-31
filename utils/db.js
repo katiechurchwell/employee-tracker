@@ -1,6 +1,7 @@
-var apiRoutes = require("../routes/apiRoutes");
 var inquirer = require("inquirer");
 const db = require("../db/connection");
+const express = require("express");
+const router = express.Router();
 
 //view all answers
 function answer(sql) {
@@ -38,14 +39,26 @@ const DB = {
     ];
 
     inquirer.prompt(questions).then((answer) => {
-      sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}')`;
-
-      db.query(sql, (err, rows) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(rows);
+      router.post("/roles", (answer, res) => {
+        const sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}'`;
+        const params = [answer.department_name];
+      
+        db.query(sql, params, (err, rows) => {
+          if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+          }
+          console.log(rows)
+        });
       });
+      // db.connect(function (err) {
+      //   if (err) throw err;
+      //   var sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}')`;
+      //   db.query(sql, function (err, result) {
+      //     if (err) throw err;
+      //     console.log("1 record inserted");
+      //   });
+      // });
     });
   },
   AddaRole() {
