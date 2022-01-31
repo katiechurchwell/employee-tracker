@@ -1,5 +1,5 @@
 # Employee Tracker
-Command-line application CMS managing a company's employee database.
+Command-line CMS managing a company's employee database.
 
 ## User Story
 AS A business owner
