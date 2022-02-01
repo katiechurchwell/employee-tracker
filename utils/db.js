@@ -1,7 +1,8 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
 
-//table view results
+//VIEW RESULTS FUNCTIONS
+//As a table
 function resultTable(sql, answer) {
   db.query(sql, answer, (err, rows) => {
     if (err) {
@@ -10,8 +11,7 @@ function resultTable(sql, answer) {
     console.table(rows);
   });
 }
-
-//add notification results
+//with a notification
 function resultaddNotice(sql, answer) {
   db.query(sql, answer, (err, rows) => {
     if (err) {
@@ -22,6 +22,7 @@ function resultaddNotice(sql, answer) {
   });
 }
 
+//CHOICES
 const DB = {
   //VIEW ALL
   ViewAllDepartments() {
@@ -36,7 +37,6 @@ const DB = {
     const sql = `SELECT * FROM employees`;
     resultTable(sql);
   },
-  //ADD
   //ADD DEPARTMENT
   AddaDepartment() {
     const questions = [
@@ -45,7 +45,6 @@ const DB = {
         message: "What's the new department's name?",
       },
     ];
-
     inquirer.prompt(questions).then((answer) => {
       const sql = `INSERT INTO departments SET ?`;
       resultaddNotice(sql, answer);
@@ -85,6 +84,7 @@ const DB = {
       );
     });
   },
+  //ADD EMPLOYEE
   AddanEmployee() {
     const questions = [
       {
@@ -106,14 +106,15 @@ const DB = {
     ];
 
     inquirer.prompt(questions).then((answer) => {
+      //FIND ROLE ID AND MANAGER ID
       const manager = answer.manager.split(" ");
-      const managerFirstName = manager[0];
       const managerLastName = manager[1];
       const roleTitle = answer.role;
-      const params = [roleTitle, managerFirstName, managerLastName];
-      //FIND ROLE ID AND MANAGER ID
+      const params = [roleTitle, managerLastName];
       db.query(
-        `SELECT id FROM roles WHERE title=?; SELECT id FROM employees WHERE first_name=? AND last_name=?`,
+        //  AND last_name=?
+        `SELECT id FROM roles WHERE title=?;
+        SELECT id FROM employees WHERE last_name=? AND role_id=1`,
         params,
         (err, idObj) => {
           if (err) {
@@ -127,11 +128,11 @@ const DB = {
       );
     });
   },
-  //update questions
+  //UPDATE AN EMPLOYEE
   UpdateanEmployeeRole() {
     console.log("Managers");
   },
-  //quit
+  //QUIT
   Quit() {
     console.log("Bye");
   },
