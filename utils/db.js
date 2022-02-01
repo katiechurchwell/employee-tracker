@@ -53,7 +53,6 @@ const DB = {
   },
   //ADD ROLE
   AddaRole() {
-    //title, salary, department
     const questions = [
       {
         name: "title",
@@ -87,7 +86,6 @@ const DB = {
     });
   },
   AddanEmployee() {
-    //first, last, role, manager
     const questions = [
       {
         name: "first_name",
@@ -108,8 +106,25 @@ const DB = {
     ];
 
     inquirer.prompt(questions).then((answer) => {
-      // const sql = `INSERT INTO employees SET ?`;
-      // resultAddNotice(sql, answer);
+      const manager = answer.manager.split(" ");
+      const managerFirstName = manager[0];
+      const managerLastName = manager[1];
+      const roleTitle = answer.role;
+      const params = [roleTitle, managerFirstName, managerLastName];
+      //FIND ROLE ID AND MANAGER ID
+      db.query(
+        `SELECT id FROM roles WHERE title=?; SELECT id FROM employees WHERE first_name=? AND last_name=?`,
+        params,
+        (err, idObj) => {
+          if (err) {
+            console.log(err);
+          }
+          //ENTER INTO DATABASE
+          console.log(idObj);
+          // const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+          // resultAddNotice(sql, answer);
+        }
+      );
     });
   },
   //update questions
