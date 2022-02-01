@@ -1,16 +1,24 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
-const express = require("express");
-const router = express.Router();
 
-//view all answers
-function answer(sql) {
-  db.query(sql, (err, rows) => {
+//table view results
+function resultTable(sql, answer) {
+  db.query(sql, answer, (err, rows) => {
     if (err) {
       console.log(err);
     }
-    console.log("");
     console.table(rows);
+  });
+}
+
+//add notification results
+function addNotice(sql, answer) {
+  db.query(sql, answer, (err, rows) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(answer + " added!");
   });
 }
 
@@ -18,15 +26,15 @@ const DB = {
   //view all questions
   ViewAllDepartments() {
     const sql = `SELECT * FROM departments`;
-    answer(sql);
+    resultTable(sql);
   },
   ViewAllRoles() {
     const sql = `SELECT * FROM roles`;
-    answer(sql);
+    resultTable(sql);
   },
   ViewAllEmployees() {
     const sql = `SELECT * FROM employees`;
-    answer(sql);
+    resultTable(sql);
   },
   //add questions
   AddaDepartment() {
@@ -39,33 +47,36 @@ const DB = {
     ];
 
     inquirer.prompt(questions).then((answer) => {
-      router.post("/roles", (answer, res) => {
-        const sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}'`;
-        const params = [answer.department_name];
-      
-        db.query(sql, params, (err, rows) => {
-          if (err) {
-            res.status(400).json({ error: err.message });
-            return;
-          }
-          console.log(rows)
-        });
-      });
-      // db.connect(function (err) {
-      //   if (err) throw err;
-      //   var sql = `INSERT INTO departments (department_name) VALUES ('${answer.department_name}')`;
-      //   db.query(sql, function (err, result) {
-      //     if (err) throw err;
-      //     console.log("1 record inserted");
-      //   });
-      // });
+      const sql = `INSERT INTO departments SET ?`;
+      resultAddNotice(sql, answer);
     });
   },
   AddaRole() {
-    console.log(db);
+    const questions = [
+      {
+        type: "input",
+        name: "role_name",
+        message: "What's the new role's name?",
+      },
+    ];
+    inquirer.prompt(questions).then((answer) => {
+      const sql = `INSERT INTO roles SET ?`;
+      resultAddNotice(sql, answer);
+    });
   },
   AddanEmployee() {
-    console.log("Managers");
+    const questions = [
+      {
+        type: "input",
+        name: "employee_name",
+        message: "What's the new employee's name?",
+      },
+    ];
+
+    inquirer.prompt(questions).then((answer) => {
+      const sql = `INSERT INTO employees SET ?`;
+      resultAddNotice(sql,answer);
+    });
   },
   //update questions
   UpdateanEmployeeRole() {
