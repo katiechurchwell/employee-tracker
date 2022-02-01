@@ -40,7 +40,6 @@ const DB = {
   AddaDepartment() {
     const questions = [
       {
-        type: "input",
         name: "department_name",
         message: "What's the new department's name?",
       },
@@ -52,30 +51,50 @@ const DB = {
     });
   },
   AddaRole() {
+    //title, salary, department
     const questions = [
       {
-        type: "input",
-        name: "role_name",
-        message: "What's the new role's name?",
+        name: "title",
+        message: "Role name?",
+      },
+      {
+        name: "salary",
+        message: "Salary?",
+      },
+      {
+        name: "department",
+        message: "Department name?",
       },
     ];
     inquirer.prompt(questions).then((answer) => {
-      const sql = `INSERT INTO roles SET ?`;
-      resultAddNotice(sql, answer);
+      // const sql = `INSERT INTO roles SET ?`;
+      // resultAddNotice(sql, answer);
     });
   },
   AddanEmployee() {
+    //first, last, role, manager
     const questions = [
       {
-        type: "input",
-        name: "employee_name",
-        message: "What's the new employee's name?",
+        name: "first_name",
+        message: "First name?",
+      },
+      {
+        name: "last_name",
+        message: "Last name?",
+      },
+      {
+        name: "role",
+        message: "Role?",
+      },
+      {
+        name: "manager",
+        message: "Manager?",
       },
     ];
 
     inquirer.prompt(questions).then((answer) => {
-      const sql = `INSERT INTO employees SET ?`;
-      resultAddNotice(sql,answer);
+      // const sql = `INSERT INTO employees SET ?`;
+      // resultAddNotice(sql, answer);
     });
   },
   //update questions
