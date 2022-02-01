@@ -12,18 +12,18 @@ function resultTable(sql, answer) {
 }
 
 //add notification results
-function addNotice(sql, answer) {
+function resultaddNotice(sql, answer) {
   db.query(sql, answer, (err, rows) => {
     if (err) {
       console.log(err);
       return;
     }
-    console.log(answer + " added!");
+    console.log("Entry recorded!");
   });
 }
 
 const DB = {
-  //view all questions
+  //VIEW ALL
   ViewAllDepartments() {
     const sql = `SELECT * FROM departments`;
     resultTable(sql);
@@ -36,7 +36,8 @@ const DB = {
     const sql = `SELECT * FROM employees`;
     resultTable(sql);
   },
-  //add questions
+  //ADD
+  //ADD DEPARTMENT
   AddaDepartment() {
     const questions = [
       {
@@ -47,9 +48,10 @@ const DB = {
 
     inquirer.prompt(questions).then((answer) => {
       const sql = `INSERT INTO departments SET ?`;
-      resultAddNotice(sql, answer);
+      resultaddNotice(sql, answer);
     });
   },
+  //ADD ROLE
   AddaRole() {
     //title, salary, department
     const questions = [
@@ -67,8 +69,21 @@ const DB = {
       },
     ];
     inquirer.prompt(questions).then((answer) => {
-      // const sql = `INSERT INTO roles SET ?`;
-      // resultAddNotice(sql, answer);
+      //FIND DEPARTMENT ID
+      db.query(
+        `SELECT id FROM departments WHERE department_name = ?;`,
+        answer.department,
+        (err, departmentIdObj) => {
+          if (err) {
+            console.log(err);
+          }
+          //ENTER INTO DATABASE
+          const departmentId = departmentIdObj[0].id;
+          const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+          const params = [answer.title, answer.salary, departmentId];
+          resultaddNotice(sql, params);
+        }
+      );
     });
   },
   AddanEmployee() {
