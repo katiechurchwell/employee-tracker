@@ -99,38 +99,46 @@ const DB = {
         name: "role",
         message: "Role?",
       },
-      {
-        name: "manager",
-        message: "Manager?",
-      },
     ];
 
-    inquirer.prompt(questions).then((answer) => {
-      //FIND ROLE ID AND MANAGER ID
-      const manager = answer.manager.split(" ");
-      const managerLastName = manager[1];
-      const roleTitle = answer.role;
-      const params = [roleTitle, managerLastName];
-      db.query(
-        //  AND last_name=?
-        `SELECT id FROM roles WHERE title=?;
-        SELECT id FROM employees WHERE last_name=? AND role_id=1`,
-        params,
-        (err, idObj) => {
-          if (err) {
-            console.log(err);
-          }
-          //ENTER INTO DATABASE
-          console.log(idObj);
-          // const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
-          // resultAddNotice(sql, answer);
-        }
-      );
+    inquirer.prompt(questions).then(async (answer) => {
+      //DISPLAY MANAGERS AND GET ID
+      await db
+        .promise()
+        .query(`SELECT * FROM employees WHERE role_id=1;`)
+        .then(async (managers) => {
+          const managerId = await inquirer.prompt([
+            {
+              type: "list",
+              name: "manager",
+              message: "Pick your manager.",
+              choices: managers[0].map((manager) => ({
+                name: manager.first_name + " " + manager.last_name,
+                value: manager.id,
+              })),
+            },
+          ]);
+          //INSERT INTO DATABASE
+          await db
+            .promise()
+            .query(
+              `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`,
+              [
+                answer.first_name,
+                answer.last_name,
+                answer.role,
+                managerId.manager,
+              ]
+            )
+            .then(console.log);
+        })
+        .catch((err) => console.log(err));
+      return "";
     });
   },
   //UPDATE AN EMPLOYEE
   UpdateanEmployeeRole() {
-    console.log("Managers");
+    console.log("Need to code here!");
   },
   //QUIT
   Quit() {
