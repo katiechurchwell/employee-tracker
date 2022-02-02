@@ -153,7 +153,28 @@ const DB = {
   },
   //UPDATE AN EMPLOYEE
   UpdateanEmployeeRole() {
-    console.log("Need to code here!");
+    //SHOW ALL EMPLOYEES AS LIST
+    const sql = `SELECT * FROM employees`;
+    db.query(sql, (err, employees) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      inquirer.prompt([
+        {
+          type: "list",
+          name: "employees",
+          message: "Pick the employee to update.",
+          choices: employees.map((employee) => ({
+            name: employee.first_name + " " + employee.last_name,
+            value: employee.id,
+          })),
+        },
+      ]);
+      
+    });
+    //Which field?
+    //Edit field
   },
   //QUIT
   Quit() {
