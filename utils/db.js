@@ -160,18 +160,29 @@ const DB = {
         console.log(err);
         return;
       }
-      inquirer.prompt([
-        {
-          type: "list",
-          name: "employees",
-          message: "Pick the employee to update.",
-          choices: employees.map((employee) => ({
-            name: employee.first_name + " " + employee.last_name,
-            value: employee.id,
-          })),
-        },
-      ]);
-      
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employee",
+            message: "Pick the employee to update.",
+            choices: employees.map((employee) => ({
+              name: employee.first_name + " " + employee.last_name,
+              value: employee.id,
+            })),
+          },
+        ])
+        //DISPLAY EMPLOYEE CHOICE
+        .then((choice) => {
+          const sql = `SELECT * FROM employees WHERE id=?`;
+          db.query(sql, choice.employee, (err, rows) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            console.table(rows);
+          });
+        });
     });
     //Which field?
     //Edit field
