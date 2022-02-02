@@ -175,17 +175,10 @@ const DB = {
         //DISPLAY EMPLOYEE CHOICE
         .then((choice) => {
           const sql = `SELECT * FROM employees WHERE id=?`;
-          db.query(sql, choice.employee, (err, rows) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
-            console.table(rows);
-          });
+          resultTable(sql,choice.employee)
+          
         });
     });
-    //Which field?
-    //Edit field
   },
   //QUIT
   Quit() {
