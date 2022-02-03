@@ -5,7 +5,7 @@ VALUES
   ('Cafeteria'),
   ('Marketing');
 
-INSERT INTO roles (id, title, salary, department_id)
+INSERT INTO roles (id, title, salary, departments_id)
 VALUES 
   (1, 'Manager', 70000, 1),
   (2, 'Artist', 200000, 4),

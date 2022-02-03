@@ -1,7 +1,6 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
 const userPrompts = require("./userPrompts");
-// userPrompts.promptHomeMenu();
 
 //VIEW RESULTS FUNCTIONS
 //As a table
@@ -148,9 +147,11 @@ const DB = {
                     managerId.manager,
                   ]
                 )
-                .then(console.log("Entry added!"))
-                .catch((err) => console.log(err))
-                .then(userPrompts.promptHomeMenu());
+                .then(() => {
+                  console.log("Entry added!");
+                })
+                .catch(console.log)
+                .then(() => userPrompts.promptHomeMenu());
               return "";
             });
         });
