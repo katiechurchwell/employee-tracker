@@ -174,7 +174,7 @@ const DB = {
         ])
         //DISPLAY EMPLOYEE CHOICE
         .then((choice) => {
-          resultTable(sql, choice.employee);
+          // resultTable(sql, choice.employee);
           //SELECT FIELD TO UPDATE
           inquirer
             .prompt([
@@ -190,7 +190,7 @@ const DB = {
                 .prompt([
                   {
                     name: "employeeUpdate",
-                    message: "Update " + field.employeeField + ".",
+                    message: "Update " + field.employeeField,
                   },
                 ])
                 .then((update) => {
@@ -198,18 +198,9 @@ const DB = {
                   const fieldToUpdate = field.employeeField;
                   const updateValue = update.employeeUpdate;
 
-                  console.log(employeeToUpdate);
+                  const sql = `UPDATE employees SET ${fieldToUpdate} = '${updateValue}' WHERE id= ${employeeToUpdate}`;
 
-                  const sql = `UPDATE employees
-                SET ? = ?
-                WHERE id=?`;
-
-                  resultTable(
-                    sql,
-                    fieldToUpdate,
-                    updateValue,
-                    employeeToUpdate
-                  );
+                  resultaddNotice(sql);
                 });
             });
         });
