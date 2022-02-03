@@ -11,6 +11,7 @@ function resultTable(sql, answer) {
       console.log(err);
     }
     console.table(rows);
+    userPrompts.promptHomeMenu();
   });
 }
 //with a notification
@@ -21,6 +22,7 @@ function resultaddNotice(sql, answer) {
       return;
     }
     console.log("Entry recorded!");
+    userPrompts.promptHomeMenu();
   });
 }
 
@@ -146,8 +148,9 @@ const DB = {
                     managerId.manager,
                   ]
                 )
-                .then("Entry added!")
-                .catch((err) => console.log(err));
+                .then(console.log("Entry added!"))
+                .catch((err) => console.log(err))
+                .then(userPrompts.promptHomeMenu());
               return "";
             });
         });
