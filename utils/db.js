@@ -168,15 +168,50 @@ const DB = {
             message: "Pick the employee to update.",
             choices: employees.map((employee) => ({
               name: employee.first_name + " " + employee.last_name,
-              value: employee.id,
+              value: employee,
             })),
           },
         ])
         //DISPLAY EMPLOYEE CHOICE
         .then((choice) => {
-          const sql = `SELECT * FROM employees WHERE id=?`;
-          resultTable(sql,choice.employee)
-          
+          resultTable(sql, choice.employee);
+          //SELECT FIELD TO UPDATE
+          inquirer
+            .prompt([
+              {
+                type: "list",
+                name: "employeeField",
+                message: "Pick a field to update",
+                choices: Object.keys(choice.employee),
+              },
+            ])
+            .then((field) => {
+              inquirer
+                .prompt([
+                  {
+                    name: "employeeUpdate",
+                    message: "Update " + field.employeeField + ".",
+                  },
+                ])
+                .then((update) => {
+                  const employeeToUpdate = choice.employee.id;
+                  const fieldToUpdate = field.employeeField;
+                  const updateValue = update.employeeUpdate;
+
+                  console.log(employeeToUpdate);
+
+                  const sql = `UPDATE employees
+                SET ? = ?
+                WHERE id=?`;
+
+                  resultTable(
+                    sql,
+                    fieldToUpdate,
+                    updateValue,
+                    employeeToUpdate
+                  );
+                });
+            });
         });
     });
   },
