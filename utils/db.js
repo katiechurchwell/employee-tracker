@@ -174,7 +174,6 @@ const DB = {
         ])
         //DISPLAY EMPLOYEE CHOICE
         .then((choice) => {
-          // resultTable(sql, choice.employee);
           //SELECT FIELD TO UPDATE
           inquirer
             .prompt([
@@ -211,5 +210,4 @@ const DB = {
     console.log("Bye");
   },
 };
-
 module.exports = DB;

@@ -22,4 +22,4 @@ const userPrompts = {
   },
 };
 
-module.exports = userPrompts
+module.exports = userPrompts;
