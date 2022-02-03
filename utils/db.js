@@ -1,5 +1,7 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
+const userPrompts = require("./userPrompts");
+// userPrompts.promptHomeMenu();
 
 //VIEW RESULTS FUNCTIONS
 //As a table
@@ -210,4 +212,5 @@ const DB = {
     console.log("Bye");
   },
 };
+
 module.exports = DB;
