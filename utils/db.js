@@ -65,25 +65,29 @@ const DB = {
         name: "salary",
         message: "Salary?",
       },
-      {
-        name: "department",
-        message: "Department name?",
-      },
     ];
-    inquirer.prompt(questions).then((answer) => {
-      //FIND DEPARTMENT ID
-      db.query(
-        `SELECT id FROM departments WHERE department_name = ?;`,
-        answer.department,
-        (err, departmentIdObj) => {
-          if (err) {
-            console.log(err);
-          }
+    inquirer.prompt(questions).then(async (answer) => {
+      //DISPLAY DEPARTMENTS
+      await db
+        .promise()
+        .query(`SELECT * FROM departments`)
+        .then(async (departments) => {
+          const departmentId = await inquirer.prompt([
+            {
+              type: "list",
+              name: "department",
+              message: "Pick your role.",
+              choices: departments[0].map((department) => ({
+                name: department.department_name,
+                value: department.id,
+              })),
+            },
+          ]);
           //ENTER INTO DATABASE
-          const departmentId = departmentIdObj[0].id;
-          const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
-          const params = [answer.title, answer.salary, departmentId];
+          const sql = `INSERT INTO roles (title, salary, departments_id) VALUES (?,?,?)`;
+          const params = [answer.title, answer.salary, departmentId.department];
           resultaddNotice(sql, params);
+          console.log(departmentId)
         }
       );
     });
