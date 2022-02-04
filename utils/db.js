@@ -1,6 +1,7 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
 const userPrompts = require("./userPrompts");
+const index = require('../index');
 
 //VIEW RESULTS FUNCTIONS
 //As a table
@@ -10,7 +11,7 @@ function resultTable(sql, answer) {
       console.log(err);
     }
     console.table(rows);
-    userPrompts.promptHomeMenu();
+    index.app();
   });
 }
 //with a notification
@@ -21,7 +22,7 @@ function resultaddNotice(sql, answer) {
       return;
     }
     console.log("Entry recorded!");
-    userPrompts.promptHomeMenu();
+    index.app();
   });
 }
 
@@ -149,6 +150,7 @@ const DB = {
                 )
                 .then(() => {
                   console.log("Entry added!");
+                  index.app();
                 })
                 .catch(console.log)
                 .then(() => userPrompts.promptHomeMenu());
