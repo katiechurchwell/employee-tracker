@@ -1,7 +1,7 @@
 var inquirer = require("inquirer");
 const db = require("../db/connection");
 const userPrompts = require("./userPrompts");
-const index = require('../index');
+const index = require("../index");
 
 //VIEW RESULTS FUNCTIONS
 //As a table
@@ -76,7 +76,7 @@ const DB = {
             {
               type: "list",
               name: "department",
-              message: "Pick your role.",
+              message: "Department?",
               choices: departments[0].map((department) => ({
                 name: department.department_name,
                 value: department.id,
@@ -87,9 +87,7 @@ const DB = {
           const sql = `INSERT INTO roles (title, salary, departments_id) VALUES (?,?,?)`;
           const params = [answer.title, answer.salary, departmentId.department];
           resultaddNotice(sql, params);
-          console.log(departmentId)
-        }
-      );
+        });
     });
   },
   //ADD EMPLOYEE
@@ -144,7 +142,7 @@ const DB = {
               await db
                 .promise()
                 .query(
-                  `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`,
+                  `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES(?,?,?,?)`,
                   [
                     answer.first_name,
                     answer.last_name,
@@ -214,6 +212,7 @@ const DB = {
                   resultaddNotice(sql);
                 });
             });
+            console.log(choice)
         });
     });
   },
